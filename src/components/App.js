@@ -3,63 +3,43 @@ import data from "./data";
 
 import '../styles/App.css';
 
-const allCategories = ["all", "breakfast", "lunch", "shakes"];
+const allCategories = ["all","breakfast","lunch","shakes"];
 
-const App = () => {
-  const [menuItems, setMenuItems] = useState(data);
+const App = () => { 
+  const [menuItems] = useState(data);
   const [activeCategory, setActiveCategory] = useState("all");
 
-  const filteredItems =
-    activeCategory === "all"
-      ? menuItems
-      : menuItems.filter((item) => item.category === activeCategory);
+  const filteredItems = 
+    activeCategory === "all" 
+      ? menuItems 
+      : menuItems.filter(item => item.category === activeCategory);
 
-  return (
+  return( 
     <main id="main">
       <section>
         <div className="title">
           <h2>Our Menu</h2>
         </div>
+
         <div className="btn-container">
-          <button
-            id="filter-btn-all"
-            className={activeCategory === "all" ? "active" : ""}
-            onClick={() => setActiveCategory("all")}
-          >
-            All
-          </button>
-
-          <button
-            id="filter-btn-1"
-            className={activeCategory === "breakfast" ? "active" : ""}
-            onClick={() => setActiveCategory("breakfast")}
-          >
-            Breakfast
-          </button>
-
-          <button
-            id="filter-btn-2"
-            className={activeCategory === "lunch" ? "active" : ""}
-            onClick={() => setActiveCategory("lunch")}
-          >
-            Lunch
-          </button>
-
-          <button
-            id="filter-btn-3"
-            className={activeCategory === "shakes" ? "active" : ""}
-            onClick={() => setActiveCategory("shakes")}
-          >
-            Shakes
-          </button>
+          {allCategories.map((category, index) => (
+            <button
+              key={index}
+              id={`filter-btn-${index}`} 
+              className={activeCategory === category ? "active" : ""}
+              onClick={() => setActiveCategory(category)}
+            >
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </button>
+          ))}
         </div>
       </section>
-                
+
       <section className="section-center">
-        {filteredItems.map((item) => (
-          <article
-            key={item.id}
-            data-test-id={`menu-item-${item.category}`}
+        {filteredItems.map(item => (
+          <article 
+            key={item.id} 
+            data-test-id={`menu-item-${item.category}`} 
             className={`menu-item menu-item-${item.category}`}
           >
             <img src={item.img} alt={item.title} className="photo" />
@@ -73,9 +53,8 @@ const App = () => {
           </article>
         ))}
       </section>
-            
     </main>
-  );
-};
+  )
+}
 
 export default App;
