@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import data from "./data";
-
 import '../styles/App.css';
-
-const allCategories = ["all","breakfast","lunch","shakes"];
 
 const App = () => { 
   const [menuItems] = useState(data);
@@ -22,16 +19,27 @@ const App = () => {
         </div>
 
         <div className="btn-container">
-          {allCategories.map((category, index) => (
-            <button
-              key={index}
-              id={`filter-btn-${index}`} 
-              className={activeCategory === category ? "active" : ""}
-              onClick={() => setActiveCategory(category)}
-            >
-              {category.charAt(0).toUpperCase() + category.slice(1)}
-            </button>
-          ))}
+          <button 
+            id="filter-btn-1" 
+            className={activeCategory === "breakfast" ? "active" : ""}
+            onClick={() => setActiveCategory("breakfast")}
+          >
+            Breakfast
+          </button>
+          <button 
+            id="filter-btn-2" 
+            className={activeCategory === "lunch" ? "active" : ""}
+            onClick={() => setActiveCategory("lunch")}
+          >
+            Lunch
+          </button>
+          <button 
+            id="filter-btn-3" 
+            className={activeCategory === "shakes" ? "active" : ""}
+            onClick={() => setActiveCategory("shakes")}
+          >
+            Shakes
+          </button>
         </div>
       </section>
 
