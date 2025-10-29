@@ -1,39 +1,81 @@
 import React, { useState } from "react";
-import items from "./data";
-import Categories from "./Categories";
-import Menu from "./Menu"
+import data from "./data";
 
 import '../styles/App.css';
 
-const allCategories = ["all","breakfast","lunch","shakes"]
+const allCategories = ["all", "breakfast", "lunch", "shakes"];
 
 const App = () => {
+  const [menuItems, setMenuItems] = useState(data);
+  const [activeCategory, setActiveCategory] = useState("all");
 
-    const [menuItems,setMenuItems] = useState(items)
-    const [categories,setCategories] = useState(allCategories)
+  const filteredItems =
+    activeCategory === "all"
+      ? menuItems
+      : menuItems.filter((item) => item.category === activeCategory);
 
+  return (
+    <main id="main">
+      <section>
+        <div className="title">
+          <h2>Our Menu</h2>
+        </div>
+        <div className="btn-container">
+          <button
+            id="filter-btn-all"
+            className={activeCategory === "all" ? "active" : ""}
+            onClick={() => setActiveCategory("all")}
+          >
+            All
+          </button>
 
-    const filterItems = (categoryName) => {
-        if(categoryName === "all"){
-            setMenuItems(items)
-        }else{
-            const newItems = items.filter((item)=>item.category===categoryName)
-            setMenuItems(newItems)
-        }
-    }
-    return(
-        <main id="main">
-            <section className="menu section">
-                <div className="title">
-                    <h2>Our Menu</h2>
-                    <div className="underline"></div>    
-                </div>
-                <Categories categories={categories} filterItems={filterItems}/>
-                <Menu items={menuItems} />
-            </section>
-        </main>
-    )
+          <button
+            id="filter-btn-1"
+            className={activeCategory === "breakfast" ? "active" : ""}
+            onClick={() => setActiveCategory("breakfast")}
+          >
+            Breakfast
+          </button>
 
-}
+          <button
+            id="filter-btn-2"
+            className={activeCategory === "lunch" ? "active" : ""}
+            onClick={() => setActiveCategory("lunch")}
+          >
+            Lunch
+          </button>
+
+          <button
+            id="filter-btn-3"
+            className={activeCategory === "shakes" ? "active" : ""}
+            onClick={() => setActiveCategory("shakes")}
+          >
+            Shakes
+          </button>
+        </div>
+      </section>
+                
+      <section className="section-center">
+        {filteredItems.map((item) => (
+          <article
+            key={item.id}
+            data-test-id={`menu-item-${item.category}`}
+            className={`menu-item menu-item-${item.category}`}
+          >
+            <img src={item.img} alt={item.title} className="photo" />
+            <div className="item-info">
+              <header>
+                <h4>{item.title}</h4>
+                <h4 className="price">${item.price}</h4>
+              </header>
+              <p className="item-text">{item.desc}</p>
+            </div>
+          </article>
+        ))}
+      </section>
+            
+    </main>
+  );
+};
 
 export default App;
